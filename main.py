@@ -15,9 +15,9 @@ import sys
 
 
 class Node:
-    def __init__(self, val, terminal):
+    def __init__(self, val):
         self.val = val
-        self.terminal = terminal
+        self.terminal = False
         self.terminal_descendant_cnt = 0
         self.children = {}
 
@@ -27,11 +27,12 @@ class Node:
 
     def add_name(self, name):
         if len(name) == 0:
+            self.terminal = True
             return False
         next_val = name[0]
 
         if next_val not in self.children:
-            new_child = Node(next_val, len(name) == 1)
+            new_child = Node(next_val)
             new_child.add_name(name[1:])
             self._add_child(new_child)
             return True
@@ -58,7 +59,7 @@ class Trie:
     def add(self, name):
         root_val = name[0]
         if root_val not in self.roots:
-            self.roots[root_val] = Node(root_val, len(name) == 1)
+            self.roots[root_val] = Node(root_val)
         root = self.roots[root_val]
         root.add_name(name[1:])
 
